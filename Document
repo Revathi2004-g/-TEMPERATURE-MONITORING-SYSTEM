@@ -1,0 +1,122 @@
+INTRODUCTION :
+
+This project involves using an Arduino board, the LM35 temperature sensor,
+and an LCD display to create a real-time temperature monitoring system.
+The LM35 provides an analog voltage output proportional to the temperature, which is read by the Arduino.
+The Arduino then converts this analog signal to a digital value, calculates the temperature in Celsius and Fahrenheit,
+and displays the result on the LCD screen. 
+
+ARDUINO WITH TEMPERATURE SENSOR - INTERFACING LCD AND LM35 :  
+
+Let’s see how to interface Arduino with temperature sensor. 
+LM35 is a three-terminal temperature sensing device. It is used to measure temperature in the range of -55°C to 150°C.
+It is a three-terminal device that produces an analog voltage proportional to the temperature of its surroundings.
+We can convert the analog output into digital using ADC.
+The sensitivity of LM35 is 10mV/degree Celsius it does not require any extra calibration (e.g. 300mV means 30℃). 
+Its output is very precise. Supply voltage ranges from 4V to 30V.
+
+REQUIRED COMPONENTS :
+
+Arduino UNO R3 board
+Variable resistor 10kΩ
+Resistor 220Ω
+8 bit LCD
+Mini breadboard
+LM35 temperature sensor
+Few wires & cable for  power supply
+
+CIRCUIT CONNECTIONS :
+
+The LM35 temperature sensor is powered by an Arduino board via VCC & GND pins.
+The analog output pin of the LM35 temperature sensor is connected to the analog input pin A0 of Arduino.
+10 K Ohm potentiometer controls the brightness of the panel.
+The second pin is connected to pin 3 of the LCD.
+First pin of potentiometer connected to + VCC.
+Third pin of potentiometer connected to GND.
+RS pin of LCD connects to digital pin 12 of Arduino UNO.
+Pin E (Enable) connected to digital pin 11.
+Pin D4 connects to pin number 5.
+D5 pin connects to digital pin 4 of Arduino.
+Pin D6 connects to digital pin 3.
+Pin D7 connects to digital pin 2 of Arduino UNO.
+R / W pin connected to the GND.
+Pin 1 and pin 4 are connected to GND.
+Pin 2 connected to + VCC.
+The first and third pins of the potentiometer can be interchanged.
+
+CODE :
+
+#include <LiquidCrystal.h>
+int i = 0;
+int sensor = A0;
+float temp;
+float tempc;
+float tempf;
+
+LiquidCrystal lcd (12, 11, 5, 4, 3, 2);
+
+void setup () 
+{
+  lcd.begin (16, 2);
+}  
+
+void loop () 
+{
+temp=analogRead(sensor);
+tempc=(temp*5)/10;
+tempf=(tempc*1.8)+32;
+lcd.setCursor(0,0);
+lcd.print("Temp in C = ");
+lcd.println(tempc);
+lcd.setCursor(0,1);
+lcd.print("Temp in F = ");
+lcd.println(tempf);
+}
+
+CODE EXPLAINATION :
+
+1. Includes and Definitions:
+#include <LiquidCrystal.h>: Includes the LiquidCrystal library,
+which provides functions for controlling LCD displays.
+int sensor = A0;: Defines an integer variable sensor and assigns it the value A0,
+representing the analog pin used for the temperature sensor.
+float temp, tempc, tempf;: Declares three floating-point variables: temp to store the raw analog reading,
+tempc to store the temperature in Celsius, and tempf to store the temperature in Fahrenheit. 
+
+2. LCD Setup:
+LiquidCrystal lcd (12, 11, 5, 4, 3, 2);: Creates a LiquidCrystal object named lcd and specifies the digital pins
+connected to the LCD's RS, enable, D4, D5, D6, and D7 pins, respectively. 
+void setup () { lcd.begin (16, 2); }: Initializes the LCD with a 16-character, 2-line display.
+This function runs once at the start of the program. 
+
+3. Temperature Measurement and Display (Loop):
+void loop () { ... }: This function runs repeatedly.
+temp = analogRead(sensor);: Reads the analog value from the sensor connected to pin A0 and stores it in the temp variable. 
+tempc = (temp * 4.88) / 10;: Converts the raw sensor value to Celsius.
+The factor 4.88 is derived from the Arduino's analog reference voltage (5V) divided by 1024 (the number of steps for a 10-bit ADC),
+and then multiplied by 10 to get the temperature in degrees Celsius. 
+tempf = (tempc * 1.8) + 32;: Converts the Celsius temperature to Fahrenheit. 
+lcd.setCursor(0,0);: Sets the cursor to the beginning of the first line (row 0, column 0) on the LCD. 
+lcd.print("Temp in C = ");: Prints the text "Temp in C = " to the LCD. 
+lcd.println(tempc);: Prints the calculated Celsius temperature to the LCD, followed by a newline character. 
+lcd.setCursor(0,1);: Sets the cursor to the beginning of the second line (row 1, column 0). 
+lcd.print("Temp in F = ");: Prints the text "Temp in F = " to the LCD. 
+lcd.println(tempf);: Prints the calculated Fahrenheit temperature to the LCD, followed by a newline character. 
+
+WORKING PROCESS :
+
+The LM35 senses the temperature and outputs a corresponding analog voltage. 
+The Arduino reads this voltage through its analog input pin. 
+The Arduino code converts the analog reading to a voltage value,
+then to a temperature value in Celsius (or Fahrenheit). 
+The calculated temperature is then displayed on the LCD screen. 
+The process repeats continuously, updating the temperature reading on the LCD. 
+
+CONCLUSION :
+The circuit is used to monitor the temperature in many places,
+In weather monitoring system.
+In farming fields
+Industrial places
+At home and anywhere there is a need for temperature data.
+
+
